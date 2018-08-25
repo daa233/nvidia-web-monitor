@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- https://www.w3schools.com/css/css_table.asp -->
+<html>
+<head>
+<style>
+.tab {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+    text-align: center;
+}
+
+.tab td, .tab th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.tab tr:nth-child(even){background-color: #f2f2f2;}
+
+.tab tr:hover {background-color: #ddd;}
+
+.tab th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div id="div">
+</div>
+
+</body>
+</html>
+
+<script>
+    var div = document.getElementById('div');
+    {% for server_info in all_server_item_list %}
+        var host_name = '{{ server_info['host']['ip'] }}';
+        var server_title = '';
+        var h = document.createElement('h2');
+        server_title += host_name;
+        server_title += '&nbsp;&nbsp;&nbsp;&nbsp;';
+        var kvm = '{{ server_info['host']['kvm'] }}'
+        server_title += 'KVM: ' + kvm;
+        server_title += '&nbsp;&nbsp;&nbsp;&nbsp;';
+        var person_in_charge = '{{ server_info['host']['people'] }}';
+        server_title += person_in_charge;
+        h.innerHTML = server_title;
+        div.appendChild(h);
+        var table = document.createElement('table');
+        table.setAttribute("class", "tab");
+        table.setAttribute("align", "center");
+        var header_item_html = '';
+        {% for header_item in header_items %}
+            header_item_html += '<th>' + '{{header_item}}' + '</th>';
+        {% endfor %}
+        table.innerHTML += header_item_html;
+
+        {% for gpu_item in server_info['gpu'] %}
+            var gpu = '';
+            gpu += '<tr>';
+            {% for attr in gpu_attrs %}
+                gpu += '<td>' + '{{ gpu_item[attr] }}' + '</td>';
+            {% endfor %}
+            gpu += '</tr>';
+            table.innerHTML += gpu;
+        {% endfor %}
+        div.appendChild(table);
+    {% endfor %}
+</script>
+

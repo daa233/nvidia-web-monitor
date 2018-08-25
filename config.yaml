@@ -1,0 +1,39 @@
+LOCAL_HOST: False
+REMOTE_HOST: True 
+
+QUERY_GPU_CMD: nvidia-smi --query-gpu 
+
+DISPLAY_QUERY_GPU_OPTIONS:
+    - Timestamp
+    - Index
+    - BUS ID
+    - Name
+    - Temperature
+    - Total Memory
+    - Used Memory
+    - Free Memory
+    - Volatile Utilization
+
+QUERY_GPU_OPTIONS:
+    - timestamp
+    - index
+    - pci.bus_id
+    - name
+    - temperature.gpu
+    - memory.total
+    - memory.used
+    - memory.free
+    - utilization.gpu
+
+HOST:
+    -
+        username: username0 
+        ip: 192.168.1.25
+        people: node0
+        kvm: A1
+    -
+        username: username1
+        ip: 192.168.1.26
+        people: node1
+        kvm: A3
+
