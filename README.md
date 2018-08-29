@@ -85,7 +85,7 @@ It can be used for monitoring GPUs on localhost or remote host servers at the sa
 
     Now head over to http://127.0.0.1:5000/ to see something like the following:
 
-    [![demo](assets/demo.jpg)](assets/demo.jpg)
+    [![demo](assets/demo.jpg)](https://raw.githubusercontent.com/DAA233/nvidia-web-monitor/32dc6e112841a5688e33a0050294dea06bf70c6c/assets/demo.jpg)
 
     If you have the debugger disabled or trust the users on your network, you can make the server publicly available simply by adding `--host=0.0.0.0` to the command line:
 
