@@ -57,6 +57,10 @@ setTimeout('myrefresh()',5000); // Refresh every 5000 ms
         server_title += '&nbsp;&nbsp;&nbsp;&nbsp;';
         var person_in_charge = '{{ server_info['host']['people'] }}';
         server_title += person_in_charge;
+        server_title += '&nbsp;&nbsp;&nbsp;&nbsp;';
+        var comment = '{{ server_info['host']['comment'] }}';
+        server_title += comment;
+
         h.innerHTML = server_title;
         div.appendChild(h);
         var table = document.createElement('table');

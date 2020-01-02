@@ -27,6 +27,12 @@ def show():
         return render_template('404.html') 
     all_server_item_list = []
     for host, gpu_info in zip(host_list, gpu_info_list):
+        if not gpu_info:
+            host['comment'] = '(ssh error)'
+        elif 'NVIDIA-SMI has failed' in gpu_info[0]:
+            host['comment'] = '(nvidia-smi has failed)'
+        else:
+            host['comment'] = ' '
         gpu_item_list = parse_gpu_info(gpu_info, valid_gpu_attr_list)
         all_server_item_list.append({'host': host, 'gpu': gpu_item_list})
     log('Parsing finished! Rendering...')
@@ -53,7 +59,7 @@ def get_config(config_file):
     if config['REMOTE_HOST']:
         host_list += config['HOST']
         for host in host_list:
-            cmd = ' '.join(['ssh', host['username']+'@'+host['ip'], query_gpu_cmd])
+            cmd = ' '.join(['ssh', '-oBatchMode=yes', host['username']+'@'+host['ip'], query_gpu_cmd])
             query_gpu_cmd_list.append(cmd)
     if config['LOCAL_HOST']:
         query_gpu_cmd_list.insert(0, query_gpu_cmd)
@@ -91,6 +97,9 @@ def parse_gpu_info(info, valid_gpu_attr_list):
     for info_str in info[1:]:
         # str.split returns a list
         value_list = [i.strip() for i in info_str.split(', ')]
+        if value_list == ['']:
+            # nvidia-smi has failed
+            value_list = ['-'] * len(valid_gpu_attr_list)
         assert len(value_list) == len(valid_gpu_attr_list)
         GPU = namedtuple('GPU', valid_gpu_attr_list)
         gpu_item = GPU(*value_list)

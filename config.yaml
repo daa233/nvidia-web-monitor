@@ -31,9 +31,10 @@ HOST:
         ip: 192.168.1.25
         people: node0
         kvm: A1
+        comment:
     -
         username: username1
         ip: 192.168.1.26
         people: node1
         kvm: A3
-
+        comment:
